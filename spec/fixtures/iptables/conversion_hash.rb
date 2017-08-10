@@ -344,6 +344,18 @@ ARGS_TO_HASH = {
       :iniface => 'eth0',
     },
   },
+  'ipset1_negated' => {
+    :line => '-A PREROUTING -p tcp -m multiport --dports 1094 -m comment --comment "060 ipset1" -m state --state NEW -m set ! --match-set eos_headnodes src -j DROP',
+    :table => 'filter',
+    :params => {
+      :chain => 'PREROUTING',
+      :proto => "tcp",
+      :dport => ['1094'],
+      :state => ['NEW'],
+      :ipset => '!eos_headnodes src',
+      :action => 'drop',
+    },
+  },
   'iniface_1_negated' => {
     :line => '-A INPUT ! -i eth0 -j DROP -m comment --comment "060 iniface"',
     :table => 'filter',
